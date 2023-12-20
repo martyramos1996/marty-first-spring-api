@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 /**
- * @author Martim Ramos
+ * @author Martim Ramos commit test
  */
 
 @Entity
