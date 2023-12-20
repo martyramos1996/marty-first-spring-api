@@ -1,6 +1,6 @@
 # Marty's first Spring API
 
-This API is based on the API that's created during Amigoscode's "Spring Boot for Begginers" course.
+This API is based on the API that's created during Amigoscode's "Spring Boot for Beginners" course.
 
 It is more nuanced than the basic API created on the course.
 
