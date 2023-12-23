@@ -1,5 +1,6 @@
 package com.marty.first.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -22,7 +23,8 @@ public class Credentials {
 
     private static final String CREDENTIALS_ID_SEQUENCE = "credentials_id_sequence";
 
-    @OneToOne(mappedBy = "credentials", fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToOne(mappedBy = "credentials")
     private Customer customer;
 
     /**

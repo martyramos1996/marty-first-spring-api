@@ -26,8 +26,8 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @OneToOne
+    @JoinColumn(nullable = false)
     private Credentials credentials;
 
     private static final String CUSTOMER_ID_SEQUENCE = "customer_id_sequence";
@@ -38,13 +38,15 @@ public class Customer {
      * @param name String
      * @param age Integer
      * @param gender Gender
+     * @param credentials Credentials
      */
-    public Customer(Integer id, String name, Integer age, String email, Gender gender) {
+    public Customer(Integer id, String name, Integer age, String email, Gender gender, Credentials credentials) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.email = email;
         this.gender = gender;
+        this.credentials = credentials;
     }
 
     /**
@@ -162,7 +164,8 @@ public class Customer {
                 && Objects.equals(name, customer.name)
                 && Objects.equals(age, customer.age)
                 && Objects.equals(email, customer.email)
-                && Objects.equals(gender, customer.gender);
+                && Objects.equals(gender, customer.gender)
+                && Objects.equals(credentials, customer.credentials);
 
     }
 
@@ -172,7 +175,7 @@ public class Customer {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age, email, gender);
+        return Objects.hash(id, name, age, email, gender, credentials);
     }
 
     /**
@@ -186,6 +189,7 @@ public class Customer {
                 + ", age = " + age
                 + ", email = " + email
                 + ", gender = " + gender
+                + ", credentials = " + credentials
                 + " }";
     }
 }

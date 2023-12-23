@@ -44,6 +44,15 @@ public class CredentialsController extends RequestHandler {
     }
 
     /**
+     * Adds new credentials
+     * @param cs Credentials
+     */
+    @PostMapping
+    public void addCredentials(Credentials cs) {
+        getCredentialsService().addCredentials(cs);
+    }
+
+    /**
      * Gets credentials by ID
      * @param id Integer
      * @return credentials

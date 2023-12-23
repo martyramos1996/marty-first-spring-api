@@ -1,5 +1,6 @@
 package com.marty.first.api.controller;
 
+import com.marty.first.api.entity.Credentials;
 import com.marty.first.api.entity.Customer;
 import com.marty.first.api.service.CustomerService;
 import com.marty.first.api.handler.RequestHandler;
@@ -17,13 +18,15 @@ import java.util.Objects;
 public class CustomerController extends RequestHandler {
 
     private final CustomerService customerService;
+    private final CredentialsController credentialsController;
 
     /**
      * Constructor
      * @param customerService CustomerService
      */
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, CredentialsController credentialsController) {
         this.customerService = customerService;
+        this.credentialsController = credentialsController;
     }
 
     /**
@@ -46,12 +49,19 @@ public class CustomerController extends RequestHandler {
     }
 
     /**
-     * Adds a new customer
-     * @param c Customer
+     * Adds a Customer and its Credentials
+     * @param request CustomerWithCredentialsRequest
      */
     @PostMapping
-    public void addCustomer(@RequestBody Customer c) {
-        getCustomerService().addCustomer(c);
+    public void addCustomerWithCredentials(@RequestBody CustomerWithCredentialsRequest request) {
+        Credentials credentials = request.credentials();
+        Customer customer = request.customer();
+        getCredentialsController().addCredentials(credentials);
+        if (credentials.getId() != null) {
+            customer.setCredentials(credentials);
+            getCustomerService().addCustomer(customer);
+        }
+
     }
 
     /**
@@ -79,6 +89,14 @@ public class CustomerController extends RequestHandler {
      */
     public CustomerService getCustomerService() {
         return customerService;
+    }
+
+    /**
+     *
+     * @return CredentialsService
+     */
+    public CredentialsController getCredentialsController() {
+        return credentialsController;
     }
 
     /**

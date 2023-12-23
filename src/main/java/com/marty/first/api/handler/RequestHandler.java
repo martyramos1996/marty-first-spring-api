@@ -1,6 +1,7 @@
 package com.marty.first.api.handler;
 
 import com.marty.first.api.entity.Credentials;
+import com.marty.first.api.entity.Customer;
 import com.marty.first.api.enums.Gender;
 
 /**
@@ -22,8 +23,14 @@ public class RequestHandler {
      * @param age Integer
      * @param email String
      * @param gender Gender
+     */
+    public record CustomerRequest(String name, Integer age, String email, Gender gender) {}
+
+    /**
+     * The customer with credentials request
+     * @param customer Customer
      * @param credentials Credentials
      */
-    public record CustomerRequest(String name, Integer age, String email, Gender gender, Credentials credentials) {}
+    public record CustomerWithCredentialsRequest(Customer customer, Credentials credentials) {}
 
 }
