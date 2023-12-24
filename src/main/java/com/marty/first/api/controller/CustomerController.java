@@ -2,6 +2,7 @@ package com.marty.first.api.controller;
 
 import com.marty.first.api.entity.Credentials;
 import com.marty.first.api.entity.Customer;
+import com.marty.first.api.service.CredentialsService;
 import com.marty.first.api.service.CustomerService;
 import com.marty.first.api.handler.RequestHandler;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +19,16 @@ import java.util.Objects;
 public class CustomerController extends RequestHandler {
 
     private final CustomerService customerService;
+    private final CredentialsService credentialsService;
     private final CredentialsController credentialsController;
 
     /**
      * Constructor
      * @param customerService CustomerService
      */
-    public CustomerController(CustomerService customerService, CredentialsController credentialsController) {
+    public CustomerController(CustomerService customerService, CredentialsService credentialsService, CredentialsController credentialsController) {
         this.customerService = customerService;
+        this.credentialsService = credentialsService;
         this.credentialsController = credentialsController;
     }
 
@@ -80,7 +83,9 @@ public class CustomerController extends RequestHandler {
      */
     @DeleteMapping("{id}")
     public void deleteCustomerByID(@PathVariable("id") Integer id) {
+        Credentials cs = getCustomerService().getCustomerbyID(id).getCredentials();
         getCustomerService().deleteCustomerByID(id);
+        getCredentialsService().deleteCredentialsByID(cs.getId());
     }
 
     /**
@@ -89,6 +94,14 @@ public class CustomerController extends RequestHandler {
      */
     public CustomerService getCustomerService() {
         return customerService;
+    }
+
+    /**
+     *
+     * @return CredentialsService
+     */
+    public CredentialsService getCredentialsService() {
+        return credentialsService;
     }
 
     /**
@@ -109,7 +122,9 @@ public class CustomerController extends RequestHandler {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CustomerController that = (CustomerController) o;
-        return Objects.equals(customerService, that.customerService);
+        return Objects.equals(customerService, that.customerService)
+                && Objects.equals(credentialsService, that.credentialsService)
+                && Objects.equals(credentialsController, that.credentialsController);
     }
 
     /**
@@ -118,7 +133,7 @@ public class CustomerController extends RequestHandler {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(customerService);
+        return Objects.hash(customerService, credentialsService, credentialsController);
     }
 
     /**
@@ -129,6 +144,8 @@ public class CustomerController extends RequestHandler {
     public String toString() {
         return "CustomerController { " +
                 "customerService = " + customerService +
+                "credentialsService = " + credentialsService +
+                "credentialsController = " + credentialsController +
                 " }";
     }
 }
