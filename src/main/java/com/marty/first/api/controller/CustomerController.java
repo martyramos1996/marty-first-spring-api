@@ -20,16 +20,14 @@ public class CustomerController extends RequestHandler {
 
     private final CustomerService customerService;
     private final CredentialsService credentialsService;
-    private final CredentialsController credentialsController;
 
     /**
      * Constructor
      * @param customerService CustomerService
      */
-    public CustomerController(CustomerService customerService, CredentialsService credentialsService, CredentialsController credentialsController) {
+    public CustomerController(CustomerService customerService, CredentialsService credentialsService) {
         this.customerService = customerService;
         this.credentialsService = credentialsService;
-        this.credentialsController = credentialsController;
     }
 
     /**
@@ -59,7 +57,7 @@ public class CustomerController extends RequestHandler {
     public void addCustomerWithCredentials(@RequestBody CustomerWithCredentialsRequest request) {
         Credentials credentials = request.credentials();
         Customer customer = request.customer();
-        getCredentialsController().addCredentials(credentials);
+        getCredentialsService().addCredentials(credentials);
         if (credentials.getId() != null) {
             customer.setCredentials(credentials);
             getCustomerService().addCustomer(customer);
@@ -105,14 +103,6 @@ public class CustomerController extends RequestHandler {
     }
 
     /**
-     *
-     * @return CredentialsService
-     */
-    public CredentialsController getCredentialsController() {
-        return credentialsController;
-    }
-
-    /**
      * equals method
      * @param o Object
      * @return boolean
@@ -123,8 +113,7 @@ public class CustomerController extends RequestHandler {
         if (o == null || getClass() != o.getClass()) return false;
         CustomerController that = (CustomerController) o;
         return Objects.equals(customerService, that.customerService)
-                && Objects.equals(credentialsService, that.credentialsService)
-                && Objects.equals(credentialsController, that.credentialsController);
+                && Objects.equals(credentialsService, that.credentialsService);
     }
 
     /**
@@ -133,7 +122,7 @@ public class CustomerController extends RequestHandler {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(customerService, credentialsService, credentialsController);
+        return Objects.hash(customerService, credentialsService);
     }
 
     /**
@@ -145,7 +134,6 @@ public class CustomerController extends RequestHandler {
         return "CustomerController { " +
                 "customerService = " + customerService +
                 "credentialsService = " + credentialsService +
-                "credentialsController = " + credentialsController +
                 " }";
     }
 }
