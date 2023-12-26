@@ -3,6 +3,7 @@ package com.marty.first.api.handler;
 import com.marty.first.api.entity.Credentials;
 import com.marty.first.api.entity.Customer;
 import com.marty.first.api.enums.Gender;
+import com.marty.first.api.enums.UserType;
 
 /**
  * @author Martim Ramos
@@ -15,7 +16,7 @@ public class RequestHandler {
      * @param username String
      * @param password String
      */
-    public record CredentialsRequest(String username, String password) {}
+    public record CredentialsRequest(String username, String password, UserType userType) {}
 
     /**
      * The customer request

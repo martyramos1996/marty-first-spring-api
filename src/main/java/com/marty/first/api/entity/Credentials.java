@@ -1,6 +1,6 @@
 package com.marty.first.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.marty.first.api.enums.UserType;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -21,24 +21,22 @@ public class Credentials {
 
     private String password;
 
-    private static final String CREDENTIALS_ID_SEQUENCE = "credentials_id_sequence";
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "credentials")
-    private Customer customer;
+    private static final String CREDENTIALS_ID_SEQUENCE = "credentials_id_sequence";
 
     /**
      * Constructor
      * @param id Integer
      * @param username String
      * @param password String
-     * @param customer Customer
      */
-    public Credentials(Integer id, String username, String password, Customer customer) {
+    public Credentials(Integer id, String username, String password, UserType userType) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.customer = customer;
+        this.userType = userType;
     }
 
     /**
@@ -96,18 +94,18 @@ public class Credentials {
 
     /**
      *
-     * @return customer
+     * @return userType
      */
-    public Customer getCustomer() {
-        return customer;
+    public UserType getUserType() {
+        return userType;
     }
 
     /**
      *
-     * @param customer Customer
+     * @param userType UserType
      */
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     /**
@@ -123,7 +121,7 @@ public class Credentials {
         return Objects.equals(id, credentials.id)
                 && Objects.equals(username, credentials.username)
                 && Objects.equals(password, credentials.password)
-                && Objects.equals(customer, credentials.customer);
+                && Objects.equals(userType, credentials.userType);
 
     }
 
@@ -133,7 +131,7 @@ public class Credentials {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, customer);
+        return Objects.hash(id, username, password, userType);
     }
 
     /**
@@ -145,7 +143,7 @@ public class Credentials {
         return "Credentials { " + "id = " + id
                 + ", username = " + username
                 + ", password = " + password
-                + ", customer = " + customer
+                + ", userType = " + userType
                 + " }";
     }
 
