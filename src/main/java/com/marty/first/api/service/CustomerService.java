@@ -122,6 +122,15 @@ public class CustomerService extends RequestHandler {
 
     /**
      *
+     * @param credentialsId Integer
+     * @return the Customer associated to the specified Credentials
+     */
+    public Customer findByCredentialsId(Integer credentialsId) {
+        return getCustomerRepository().findByCredentialsId(credentialsId);
+    }
+
+    /**
+     *
      * @return CustomerRepository
      */
     public CustomerRepository getCustomerRepository() {

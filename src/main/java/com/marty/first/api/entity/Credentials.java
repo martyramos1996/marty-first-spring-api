@@ -10,6 +10,10 @@ import java.util.Objects;
  */
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Credentials.usernameTaken",
+                query = "SELECT CASE WHEN COUNT(cs) > 0 THEN TRUE ELSE FALSE END FROM Credentials cs WHERE cs.username = :username")
+})
 public class Credentials {
 
     @Id
@@ -31,6 +35,7 @@ public class Credentials {
      * @param id Integer
      * @param username String
      * @param password String
+     * @param userType UserType
      */
     public Credentials(Integer id, String username, String password, UserType userType) {
         this.id = id;
@@ -122,7 +127,6 @@ public class Credentials {
                 && Objects.equals(username, credentials.username)
                 && Objects.equals(password, credentials.password)
                 && Objects.equals(userType, credentials.userType);
-
     }
 
     /**

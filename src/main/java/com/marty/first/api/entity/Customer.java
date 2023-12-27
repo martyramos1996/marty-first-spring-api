@@ -10,6 +10,12 @@ import java.util.Objects;
  */
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Customer.emailTaken",
+                query = "SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END FROM Customer c WHERE c.email = :email"),
+        @NamedQuery(name = "Customer.findByCredentialsId",
+                query = "SELECT c FROM Customer c WHERE c.credentials.id = :credentialsId")
+})
 public class Customer {
 
     @Id
@@ -166,7 +172,6 @@ public class Customer {
                 && Objects.equals(email, customer.email)
                 && Objects.equals(gender, customer.gender)
                 && Objects.equals(credentials, customer.credentials);
-
     }
 
     /**
