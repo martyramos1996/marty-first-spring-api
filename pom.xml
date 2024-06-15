@@ -12,7 +12,7 @@
 	</parent>
 
 	<groupId>com.marty</groupId>
-	<artifactId>marty-first-spring-api</artifactId>
+	<artifactId>my-first-spring-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
